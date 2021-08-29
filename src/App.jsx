@@ -18,7 +18,7 @@ function App() {
              <Route exact path='/products' component={Product} />
              <Route exact path='/products/add' component={AddProduct} />
              <Route exact path='/products/:id' component={SingleProduct} />
-             <Route exact path='/product/edit/:id' component={EditProduct} /> 
+             <Route exact path='/products/edit/:id' component={EditProduct} /> 
              <Route component={NotFound} />
          </Switch>
      </Router>
