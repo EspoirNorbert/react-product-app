@@ -8,7 +8,7 @@ import ProductItem from './ProductItem';
 function Product(props) {
 
    const [products, setProducts] = useState([])
-
+   
    useEffect(  () => {
     axios
     .get('http://127.0.0.1:5000/api/v1/products',headers)
@@ -20,6 +20,15 @@ function Product(props) {
     } )
    }, [])
 
+
+   const handleDelete = id => {
+    if(window.confirm('Voulez vous vraiment supprimer ce produit ? oui ou Non ?')){
+        axios.delete(`http://127.0.0.1:5000/api/v1/products/${id}`, headers).then( res => {
+            setProducts([...products].filter(i => i.id !== id))
+        })
+        .catch(error  =>console.log(error) )   
+    }
+}
 
     return (
         <div className="container mt-5">
@@ -51,7 +60,7 @@ function Product(props) {
                         </tr>
                    </thead>
                     <tbody> 
-                       { products.map(product => <ProductItem key={product.id} /* handleDelete={handleDelete} */ product={product} />) }
+                       { products.map(product => <ProductItem key={product.id} handleDelete={handleDelete}  product={product} />) }
                     </tbody>
                 </table>
                 </div>
