@@ -3,35 +3,51 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import headers from '../../Api';
 import ProductItem from './ProductItem';
+import { toast } from 'react-toastify';
+
 
 
 function Product(props) {
 
    const [products, setProducts] = useState([])
-   
+   const [loading, setLoading] = useState(false)
+
+   const getAllProduct = async () => {
+     setLoading(true)
+     try {
+          await axios
+          .get('https://api-product-laafi.herokuapp.com/api/v1/products',headers)
+          .then(res => {
+            setProducts(res.data.products)
+          })
+          setLoading(false)
+     } catch ({error}) {
+       console.log(error);
+     }
+   }
+
    useEffect(  () => {
-    axios
-    .get('http://127.0.0.1:5000/api/v1/products',headers)
-    .then(response => response.data.products)
-    .then(products  =>  setProducts(products) )
-    .catch( error => {
-        console.log(error);
-        alert('Erreur du serveur')
-    } )
+          getAllProduct()
    }, [])
 
 
    const handleDelete = id => {
     if(window.confirm('Voulez vous vraiment supprimer ce produit ? oui ou Non ?')){
-        axios.delete(`http://127.0.0.1:5000/api/v1/products/${id}`, headers).then( res => {
+        axios.delete(`https://api-product-laafi.herokuapp.com/api/v1/products/${id}`, headers).then( res => {
             setProducts([...products].filter(i => i.id !== id))
+            toast.success('Ce produit a été supprimé avec success')
         })
         .catch(error  =>console.log(error) )   
     }
-}
+  }
 
     return (
-        <div className="container mt-5">
+ /*      products.length ?  (
+        <div class="d-flex flex-column p-5 w-50 text-center  mx-auto">
+          <h5>Aucun produit ajouté pour le moment</h5>
+          <Link to='products/add' class="w-50 mx-auto btn-lg btn btn-dark ">Ajouter un produit</Link>
+        </div>) */
+        <div className="container mt-5 mb-5">
             <div className="card border border-dark">
               <div className="card-heard bg-dark">
                  <div className="row">
@@ -44,13 +60,11 @@ function Product(props) {
                 </div>
                 </div>
                 <div className="card-body p-0">
-                { products.length === 0 ? 
-                <div class="d-flex flex-column p-5 w-50 text-center  mx-auto">
-                  <h5>Aucun produit ajouté pour le moment</h5>
-                  <Link to='products/add' class="w-50 mx-auto btn-lg btn btn-dark ">Ajouter un produit</Link>
-                </div> : 
-                <div class="table-responsive">
-                <table id="products" class="rounded-0 table bg-white table-hover w-100">
+             
+                {
+                !loading ?
+                <div className="table-responsive">
+                <table id="products" class="rounded-0 mb-5 table table-striped bg-white table-hover w-100">
                    <thead>
                         <tr>
                             <th>#</th>
@@ -63,8 +77,10 @@ function Product(props) {
                        { products.map(product => <ProductItem key={product.id} handleDelete={handleDelete}  product={product} />) }
                     </tbody>
                 </table>
-                </div>
-                 } 
+                </div> 
+                    : 
+                   <div className="spinner-border"></div>
+                  }
                </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ function ProductItem({ product, handleDelete }) {
          <tr>
            <td>{ product.id } </td>
            <td>
-              <img src={product.image_url == null ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSMaGF8lf7RbiZBnbqQW63hI-WTHPBI768Og&usqp=CAU' : product.image_url} className='img-fluid rounded-circle border border-success' width='50' height='50' alt={ product.name} /> {product.name}    
+              <img src={product.image_url == null ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSMaGF8lf7RbiZBnbqQW63hI-WTHPBI768Og&usqp=CAU' : product.image_url} className='img-fluid rounded-circle border border-dark' width='50' height='50' alt={ product.name} /> {product.name}    
            </td>
            <td>{product.price} FCFA</td>
            <td>

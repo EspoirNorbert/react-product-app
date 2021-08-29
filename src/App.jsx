@@ -1,4 +1,5 @@
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router , Switch , Route  } from 'react-router-dom'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
@@ -7,7 +8,7 @@ import SingleProduct from './components/products/SingleProduct'
 import AddProduct from './components/products/AddProduct'
 import EditProduct from './components/products/EditProduct'
 import Navbar from './components/Navbar';
-import Test from './components/Test';
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
              <Route exact path='/products/edit/:id' component={EditProduct} /> 
              <Route component={NotFound} />
          </Switch>
+         <ToastContainer position='bottom-right' />
      </Router>
   );
 }
